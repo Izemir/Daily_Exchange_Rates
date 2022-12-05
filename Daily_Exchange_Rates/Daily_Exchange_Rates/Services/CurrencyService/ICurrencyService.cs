@@ -8,6 +8,6 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
 {
     public interface ICurrencyService
     {
-        Task<IEnumerable<Currency>> GetActualCurrencyAsync();
+        Task<IEnumerable<CurrencyData>> GetActualCurrencyAsync();
     }
 }

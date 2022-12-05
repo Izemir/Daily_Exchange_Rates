@@ -10,12 +10,12 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
 {
     public class MockCurrencyService : ICurrencyService
     {
-        List<Currency> _currencies;
+        List<CurrencyData> _currencies;
         public MockCurrencyService()
         {
-            _currencies= new List<Currency>()
+            _currencies= new List<CurrencyData>()
             {
-                new Currency()
+                new CurrencyData()
                 {
                     Id=440,
                     NumCode=036,
@@ -25,7 +25,7 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
                     Rate=2.1052,
                     PreviousRate=2.1052
                 },
-                new Currency()
+                new CurrencyData()
                 {
                     Id=510,
                     NumCode=051,
@@ -37,8 +37,8 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
                 },
             };
         }
-        public async Task<IEnumerable<Currency>> GetActualCurrencyAsync()
-        {            
+        public async Task<IEnumerable<CurrencyData>> GetActualCurrencyAsync()
+        {    
             return await Task.FromResult(_currencies);
         }
     }

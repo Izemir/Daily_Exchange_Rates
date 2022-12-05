@@ -25,14 +25,14 @@
                         </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" x:DataType="model:Currency" Orientation="Horizontal">
+                        <StackLayout Padding="10" x:DataType="model:CurrencyData" Orientation="Horizontal">
                             <StackLayout Orientation="Vertical">
                                 <Label Text="{Binding CharCode}"/>
                             </StackLayout>
-                        <Label Text="{Binding Rate}" 
+                        <Label Text="{Binding PreviousRate}" 
                                HorizontalOptions="CenterAndExpand"
                             FontSize="16" />
-                        <Label Text="{Binding PreviousRate}" 
+                        <Label Text="{Binding Rate}" 
                                HorizontalOptions="End"
                             FontSize="16" />
                     </StackLayout>
