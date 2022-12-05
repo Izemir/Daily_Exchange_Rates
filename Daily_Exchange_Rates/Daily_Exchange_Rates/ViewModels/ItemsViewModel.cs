@@ -1,4 +1,5 @@
 ﻿using Daily_Exchange_Rates.Models;
+using Daily_Exchange_Rates.Services.CurrencyService;
 using Daily_Exchange_Rates.Views;
 using System;
 using System.Collections.ObjectModel;
@@ -26,11 +27,16 @@ namespace Daily_Exchange_Rates.ViewModels
             ItemTapped = new Command<Item>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
+
+            MockCurrencyService mockCurrencyService = new MockCurrencyService();
+            var a = mockCurrencyService.GetActualCurrencyAsync();
         }
 
         async Task ExecuteLoadItemsCommand()
         {
             IsBusy = true;
+            MockCurrencyService mockCurrencyService = new MockCurrencyService();
+            var a = mockCurrencyService.GetActualCurrencyAsync();
 
             try
             {
@@ -69,7 +75,7 @@ namespace Daily_Exchange_Rates.ViewModels
 
         private async void OnAddItem(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
+            //await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
         async void OnItemSelected(Item item)
@@ -78,7 +84,7 @@ namespace Daily_Exchange_Rates.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
         }
     }
 }

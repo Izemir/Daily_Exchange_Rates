@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:model="clr-namespace:Daily_Exchange_Rates.Models" 
+             xmlns:local="clr-namespace:Daily_Exchange_Rates.ViewModels"
+             Title="{Binding Title}"
+             x:Class="Daily_Exchange_Rates.Views.CurrencyListPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="settings.png" />
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <RefreshView x:DataType="local:CurrencyListViewModel" Command="{Binding LoadCurrencyCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="CurrencyListView"
+                ItemsSource="{Binding Currency}"
+                SelectionMode="None">
+                        <CollectionView.Header>
+                            <StackLayout Orientation="Horizontal" BackgroundColor="Gray" Padding="5">
+                                <Label Text="{Binding FirstDate}" HorizontalOptions="CenterAndExpand"
+                                       VerticalOptions="Center"
+                                       TextColor="Black"></Label>
+                                <Label Text="{Binding SecondDate}" HorizontalOptions="End"
+                                       VerticalOptions="Center"
+                                       TextColor="Black"></Label>
+                            </StackLayout>
+                        </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:Currency" Orientation="Horizontal">
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="{Binding CharCode}"/>
+                            </StackLayout>
+                        <Label Text="{Binding Rate}" 
+                               HorizontalOptions="CenterAndExpand"
+                            FontSize="16" />
+                        <Label Text="{Binding PreviousRate}" 
+                               HorizontalOptions="End"
+                            FontSize="16" />
+                    </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>
