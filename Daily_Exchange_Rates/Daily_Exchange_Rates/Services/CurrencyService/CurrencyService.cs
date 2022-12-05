@@ -40,12 +40,13 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
                 first = GetCurrencyFromWeb(DateTime.Now);
                 second = GetCurrencyFromWeb(DateTime.Now.AddDays(-1));
             }
-            if(first!=null&& second!=null)
+            if (first != null && second != null)
             {
                 result = MergeLists(first, second);
                 SettingService settingService = new SettingService();
                 settingService.AdaptCurrencyList(ref result);
             }
+            else return null;
 
             return await Task.FromResult(result);
         }
