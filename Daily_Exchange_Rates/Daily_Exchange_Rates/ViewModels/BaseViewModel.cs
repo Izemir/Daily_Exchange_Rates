@@ -9,6 +9,9 @@ using Xamarin.Forms;
 
 namespace Daily_Exchange_Rates.ViewModels
 {
+    /// <summary>
+    /// Стандарный метод проекта
+    /// </summary>
     public class BaseViewModel : INotifyPropertyChanged
     {
         public ICurrencyService CurrencyService => DependencyService.Get<ICurrencyService>();

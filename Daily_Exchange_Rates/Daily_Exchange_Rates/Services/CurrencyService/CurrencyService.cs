@@ -86,8 +86,6 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
         /// <summary>
         /// Десериализация xml-документа по одному объекту
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
         /// <returns></returns>
         private static T Deserialize<T>(string data) where T : class, new()
         {
