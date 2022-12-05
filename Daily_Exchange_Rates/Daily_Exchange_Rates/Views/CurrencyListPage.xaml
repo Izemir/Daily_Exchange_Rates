@@ -2,40 +2,62 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:model="clr-namespace:Daily_Exchange_Rates.Models" 
-             xmlns:local="clr-namespace:Daily_Exchange_Rates.ViewModels"
+             xmlns:local="clr-namespace:Daily_Exchange_Rates.ViewModels" 
+             xmlns:controls="clr-namespace:Daily_Exchange_Rates.UI.Controls"
              Title="{Binding Title}"
              x:Class="Daily_Exchange_Rates.Views.CurrencyListPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="settings.png" />
-    </ContentPage.ToolbarItems>
+        <controls:BindableToolbarItem IconImageSource="settings.png" IsVisible="{Binding NoError}" 
+                                      Command="{Binding SettingsCommand}"/>
+    </ContentPage.ToolbarItems>    
     <StackLayout>
-        <RefreshView x:DataType="local:CurrencyListViewModel" Command="{Binding LoadCurrencyCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <Label Text="{Binding ErrorText}" IsVisible="{Binding Error}" TextColor="Black" FontSize="16"/>
+        <RefreshView x:DataType="local:CurrencyListViewModel" Command="{Binding LoadCurrencyCommand}" 
+                     IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
             <CollectionView x:Name="CurrencyListView"
                 ItemsSource="{Binding Currency}"
+                IsVisible="{Binding NoError}"
                 SelectionMode="None">
                         <CollectionView.Header>
-                            <StackLayout Orientation="Horizontal" BackgroundColor="Gray" Padding="5">
-                                <Label Text="{Binding FirstDate}" HorizontalOptions="CenterAndExpand"
+                    <Grid Padding="10" BackgroundColor="Gray">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding FirstDate}" HorizontalOptions="CenterAndExpand"
                                        VerticalOptions="Center"
+                               Grid.Column="1"
                                        TextColor="Black"></Label>
-                                <Label Text="{Binding SecondDate}" HorizontalOptions="End"
+                        <Label Text="{Binding SecondDate}" HorizontalOptions="End"
                                        VerticalOptions="Center"
+                               Grid.Column="2"
                                        TextColor="Black"></Label>
-                            </StackLayout>
-                        </CollectionView.Header>
+                    </Grid>
+                </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" x:DataType="model:CurrencyData" Orientation="Horizontal">
-                            <StackLayout Orientation="Vertical">
-                                <Label Text="{Binding CharCode}"/>
+                        <Grid Padding="10" x:DataType="model:CurrencyData">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Orientation="Vertical" Grid.Column="0">
+                                <Label Text="{Binding CharCode}"
+                                       FontSize="16"
+                                       TextColor="Black"/>
+                                <Label Text="{Binding ScaleName}"/>
                             </StackLayout>
-                        <Label Text="{Binding PreviousRate}" 
+                            <Label Text="{Binding PreviousRate}"  Grid.Column="1"
                                HorizontalOptions="CenterAndExpand"
+                               TextColor="Black"
                             FontSize="16" />
-                        <Label Text="{Binding Rate}" 
+                            <Label Text="{Binding Rate}" Grid.Column="2"
+                               TextColor="Black"
                                HorizontalOptions="End"
                             FontSize="16" />
-                    </StackLayout>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

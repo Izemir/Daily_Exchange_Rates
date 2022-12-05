@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Daily_Exchange_Rates.Models" 
+             xmlns:local="clr-namespace:Daily_Exchange_Rates.ViewModels" 
+             Title="{Binding Title}"
+             x:Class="Daily_Exchange_Rates.Views.SettingsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="check.png" Command="{Binding SaveCommand}"/>
+    </ContentPage.ToolbarItems>
+    <CollectionView x:Name="SettingsView"
+                ItemsSource="{Binding Settings}"
+                SelectionMode="None">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid Padding="10" x:DataType="model:CurrencySetting">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Orientation="Vertical" Grid.Column="0">
+                        <Label Text="{Binding CharCode}"
+                                       FontSize="16"
+                                       TextColor="Black"/>
+                        <Label Text="{Binding ScaleName}"/>
+                    </StackLayout>
+                    <Switch IsToggled="{Binding Enable}" Grid.Column="1" 
+                            OnColor="SkyBlue"
+                            ThumbColor="{StaticResource Primary}"/>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

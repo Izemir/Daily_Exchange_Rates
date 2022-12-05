@@ -1,4 +1,5 @@
 ﻿using Daily_Exchange_Rates.Services;
+using Daily_Exchange_Rates.Services.CurrencyService;
 using Daily_Exchange_Rates.Views;
 using System;
 using Xamarin.Forms;
@@ -13,7 +14,7 @@ namespace Daily_Exchange_Rates
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            DependencyService.Register<CurrencyService>();
             MainPage = new AppShell();
         }
 

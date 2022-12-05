@@ -9,8 +9,8 @@ namespace Daily_Exchange_Rates.ViewModels
     {
         public AboutViewModel()
         {
-            Title = "About";
-            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));
+            Title = "О приложении";
+            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://github.com/Izemir/Daily_Exchange_Rates"));
         }
 
         public ICommand OpenWebCommand { get; }

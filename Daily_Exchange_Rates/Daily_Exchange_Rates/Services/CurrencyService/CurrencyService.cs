@@ -11,11 +11,18 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Xamarin.Essentials;
+using Xamarin.Forms.Shapes;
 
 namespace Daily_Exchange_Rates.Services.CurrencyService
 {
     public class CurrencyService : ICurrencyService
     {
+        /// <summary>
+        /// Получает данные на завтра и сегодня, если их нет, то на вчера-сегодня.
+        /// После чего идет приведение и соединение в один список.
+        /// После чего идет фильтрация через настройки.
+        /// </summary>
+        /// <returns>Возвращает данные в нужном виде (списком)</returns>
         public async Task<IEnumerable<CurrencyData>> GetActualCurrencyAsync()
         {
             var result = new List<CurrencyData>();
@@ -36,11 +43,19 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             if(first!=null&& second!=null)
             {
                 result = MergeLists(first, second);
+                SettingService settingService = new SettingService();
+                settingService.AdaptCurrencyList(ref result);
             }
 
             return await Task.FromResult(result);
         }
 
+        /// <summary>
+        /// Соединяет полученные данные за 2 дня в один список, и маппит их
+        /// </summary>
+        /// <param name="first">Первый список</param>
+        /// <param name="second">Второй список</param>
+        /// <returns>Соединенный список</returns>
         private List<CurrencyData> MergeLists(List<Currency> first, List<Currency> second)
         {
             var result = new List<CurrencyData>();
@@ -53,10 +68,9 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
                     result.Add(new CurrencyData()
                     {
                         CharCode= item.CharCode,
-                        Name = item.Name,
+                        ScaleName = item.Scale+" "+item.Name,
                         NumCode = item.NumCode,
                         Rate= item.Rate,
-                        Scale = item.Scale,
                         PreviousRate = secondRate
                     });
                 }
@@ -69,6 +83,12 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             }
         }
 
+        /// <summary>
+        /// Десериализация xml-документа по одному объекту
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
         private static T Deserialize<T>(string data) where T : class, new()
         {
             if (string.IsNullOrEmpty(data))
@@ -82,6 +102,11 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             }
         }
 
+        /// <summary>
+        /// Получение данных с сайта по дате, обработка их, десериализация
+        /// </summary>
+        /// <param name="date">Дата</param>
+        /// <returns>Список данных с сайта</returns>
         private List<Currency> GetCurrencyFromWeb(DateTime date)
         {
             var result = new List<Currency>();
@@ -89,6 +114,8 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             {
                 var request = WebRequest.Create($"https://www.nbrb.by/Services/XmlExRates.aspx?ondate={date.ToString("dd.MM.yyyy")}") as HttpWebRequest;
                 var response = request.GetResponse();
+
+                if (response == null) return null;
 
                 Stream receiveStream = response.GetResponseStream();
                 StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);

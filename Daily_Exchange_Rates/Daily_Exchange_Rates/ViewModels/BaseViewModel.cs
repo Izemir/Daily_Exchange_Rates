@@ -1,5 +1,6 @@
 ﻿using Daily_Exchange_Rates.Models;
 using Daily_Exchange_Rates.Services;
+using Daily_Exchange_Rates.Services.CurrencyService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ namespace Daily_Exchange_Rates.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public ICurrencyService CurrencyService => DependencyService.Get<ICurrencyService>();
 
         bool isBusy = false;
         public bool IsBusy
