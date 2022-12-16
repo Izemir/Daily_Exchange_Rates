@@ -1,4 +1,5 @@
 ﻿using Daily_Exchange_Rates.Models;
+using Daily_Exchange_Rates.Resx;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +20,7 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
     /// </summary>
     public class APICurrencyService :CurrencyService, ICurrencyService
     {
-        private string _dateFormat = "yyyy-MM-dd";
+        private string _dateFormat;
         private readonly HttpClient _http;
         private readonly string _apiConnection;
         /// <summary>
@@ -28,7 +29,8 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
         public APICurrencyService()
         {
             _http = new HttpClient();
-            _apiConnection = "https://www.nbrb.by/api/exrates/rates?periodicity=0";
+            _apiConnection = AppResources.APILink;
+            _dateFormat = AppResources.APIDateFormat;
         }
         /// <summary>
         /// Получение данных с сайта, их перевод в json формат, последующий перевод к общему формату

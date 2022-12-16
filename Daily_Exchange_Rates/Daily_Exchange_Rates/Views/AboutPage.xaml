@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Daily_Exchange_Rates.Views.AboutPage"
              xmlns:vm="clr-namespace:Daily_Exchange_Rates.ViewModels"
-             Title="{Binding Title}">
+             xmlns:resources="clr-namespace:Daily_Exchange_Rates.Resx"
+             Title="{x:Static resources:AppResources.AboutTitle}">
     
     <ContentPage.BindingContext>
         <vm:AboutViewModel />
@@ -29,13 +30,13 @@
         </StackLayout>
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-                <Label Text="Daily Exchange Rates Application" FontSize="Title"/>
-                <Label Text="Developer Evgenii Chistiakov" FontSize="16" Padding="0,0,0,0"/>
+                <Label Text="{x:Static resources:AppResources.AppName}" FontSize="Title"/>
+                <Label Text="{x:Static resources:AppResources.Developer}" FontSize="16" Padding="0,0,0,0"/>
                 <Label FontSize="16" Padding="0,24,0,0">
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="You can see code:" FontAttributes="Bold"/>
+                                <Span Text="{x:Static resources:AppResources.CodeText}" FontAttributes="Bold"/>
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>

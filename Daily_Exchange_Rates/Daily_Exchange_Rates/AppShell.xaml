@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:Daily_Exchange_Rates.Views"
-       Title="Daily_Exchange_Rates"
+       xmlns:local="clr-namespace:Daily_Exchange_Rates.Views"       
+       xmlns:resources="clr-namespace:Daily_Exchange_Rates.Resx"
+       Title="{x:Static resources:AppResources.MainTitle}"
        x:Class="Daily_Exchange_Rates.AppShell">
 
     <!--
@@ -78,10 +79,10 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="Курсы валют" Icon="icon_feed.png">
+    <FlyoutItem Title="{x:Static resources:AppResources.CurrencyMenuItem}" Icon="icon_feed.png">
         <ShellContent Route="CurrencyListPage" ContentTemplate="{DataTemplate local:CurrencyListPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="О приложении" Icon="icon_about.png">
+    <FlyoutItem Title="{x:Static resources:AppResources.AboutMenuItem}" Icon="icon_about.png">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>
     

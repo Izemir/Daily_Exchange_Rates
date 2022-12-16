@@ -4,14 +4,16 @@
              xmlns:model="clr-namespace:Daily_Exchange_Rates.Models" 
              xmlns:local="clr-namespace:Daily_Exchange_Rates.ViewModels" 
              xmlns:controls="clr-namespace:Daily_Exchange_Rates.UI.Controls"
-             Title="{Binding Title}"
+             xmlns:resources="clr-namespace:Daily_Exchange_Rates.Resx"
+             Title="{x:Static resources:AppResources.CurrencyListTitle}"
              x:Class="Daily_Exchange_Rates.Views.CurrencyListPage">
     <ContentPage.ToolbarItems>
         <controls:BindableToolbarItem IconImageSource="settings.png" IsVisible="{Binding NoError}" 
                                       Command="{Binding SettingsCommand}"/>
     </ContentPage.ToolbarItems>    
     <StackLayout>
-        <Label Text="{Binding ErrorText}" IsVisible="{Binding Error}" TextColor="Black" FontSize="16"/>
+        <Label Text="{x:Static resources:AppResources.CurrencyListError}" 
+               IsVisible="{Binding Error}" TextColor="Black" FontSize="16"/>
         <RefreshView x:DataType="local:CurrencyListViewModel" Command="{Binding LoadCurrencyCommand}" 
                      IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
             <CollectionView x:Name="CurrencyListView"

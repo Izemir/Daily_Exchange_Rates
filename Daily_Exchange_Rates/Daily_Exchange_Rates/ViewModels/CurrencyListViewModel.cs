@@ -1,4 +1,5 @@
 ﻿using Daily_Exchange_Rates.Models;
+using Daily_Exchange_Rates.Resx;
 using Daily_Exchange_Rates.Services.CurrencyService;
 using Daily_Exchange_Rates.Views;
 using System;
@@ -18,7 +19,7 @@ namespace Daily_Exchange_Rates.ViewModels
     public class CurrencyListViewModel: BaseViewModel
     {
 
-        private string _dateFormat = "dd.MM.yy";
+        private string _dateFormat;
         public ObservableCollection<CurrencyData> Currency { get; }
 
         public Command SettingsCommand { get; }
@@ -83,12 +84,13 @@ namespace Daily_Exchange_Rates.ViewModels
         /// </summary>
         public CurrencyListViewModel()
         {
-            Title = "Курсы валют";
+            //Title = "Курсы валют";
             Currency= new ObservableCollection<CurrencyData>();
             LoadCurrencyCommand = new Command(async () => await ExecuteLoadCommand());
             Error= false;
-            ErrorText = "Не удалось получить курсы валют";
+            //ErrorText = "Не удалось получить курсы валют";
             SettingsCommand = new Command(Settings);
+            _dateFormat = AppResources.UIDateFormat;
         }
 
         public void OnAppearing()

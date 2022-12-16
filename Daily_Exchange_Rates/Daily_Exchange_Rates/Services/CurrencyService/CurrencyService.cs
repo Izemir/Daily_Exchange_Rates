@@ -1,4 +1,5 @@
 ﻿using Daily_Exchange_Rates.Models;
+using Daily_Exchange_Rates.Resx;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +20,7 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
     public class CurrencyService : ICurrencyService
     {
 
-        private string _dateFormat = "MM.dd.yyyy";
+        private string _dateFormat;
         /// <summary>
         /// Получает данные на завтра и сегодня, если их нет, то на вчера-сегодня.
         /// После чего идет приведение и соединение в один список.
@@ -28,6 +29,7 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
         /// <returns>Возвращает данные в нужном виде (списком)</returns>
         public async Task<IEnumerable<CurrencyData>> GetActualCurrencyAsync()
         {
+            _dateFormat = AppResources.XMLDateFormat;
             var result = new List<CurrencyData>();
             List<Currency> first = new List<Currency>();
             List<Currency> second = new List<Currency>();
@@ -115,7 +117,8 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             var result = new List<Currency>();
             try
             {
-                var request = WebRequest.Create($"https://www.nbrb.by/Services/XmlExRates.aspx?ondate={date.ToString(_dateFormat)}") as HttpWebRequest;
+                var link = AppResources.XMLLink;
+                var request = WebRequest.Create($"{link}ondate={date.ToString(_dateFormat)}") as HttpWebRequest;
                 var response = request.GetResponse();
 
                 if (response == null) return Task.FromResult(result);

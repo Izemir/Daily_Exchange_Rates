@@ -32,7 +32,7 @@ namespace Daily_Exchange_Rates.ViewModels
         /// </summary>
         public SettingsViewModel() 
         {
-            Title = "Настройка валют";
+            //Title = "Настройка валют";
             Settings = new ObservableCollection<CurrencySetting>();
             SaveCommand = new Command(Save);
             _settingService = new SettingService();
