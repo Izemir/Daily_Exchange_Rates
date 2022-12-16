@@ -17,6 +17,7 @@ namespace Daily_Exchange_Rates.Services
     {
         private List<CurrencySetting> _settings;
         private string[] _defaultSettings;
+        private const string _keyString = "settings";
 
         /// <summary>
         /// Настройки десереализуются из xml-документа, сохраненного в приложении.
@@ -26,9 +27,9 @@ namespace Daily_Exchange_Rates.Services
         {
             _defaultSettings = new string[] { "USD", "EUR", "RUB" };
             _settings = new List<CurrencySetting>();
-            if (Preferences.ContainsKey("settings"))
+            if (Preferences.ContainsKey(_keyString))
             {
-                var savedData = Preferences.Get("settings", "");
+                var savedData = Preferences.Get(_keyString, "");
                 if(!string.IsNullOrEmpty(savedData)) 
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<CurrencySetting>));
@@ -109,7 +110,7 @@ namespace Daily_Exchange_Rates.Services
                 using (StringWriter textWriter = new StringWriter())
                 {
                     xmlSerializer.Serialize(textWriter, settings);
-                    Preferences.Set("settings", textWriter.ToString());
+                    Preferences.Set(_keyString, textWriter.ToString());
                 }
             }
             catch(Exception ex)

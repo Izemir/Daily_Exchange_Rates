@@ -11,12 +11,15 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
 
 namespace Daily_Exchange_Rates.Services.CurrencyService
 {
     public class CurrencyService : ICurrencyService
     {
+
+        private string _dateFormat = "MM.dd.yyyy";
         /// <summary>
         /// Получает данные на завтра и сегодня, если их нет, то на вчера-сегодня.
         /// После чего идет приведение и соединение в один список.
@@ -28,19 +31,19 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             var result = new List<CurrencyData>();
             List<Currency> first = new List<Currency>();
             List<Currency> second = new List<Currency>();
-            first = GetCurrencyFromWeb(DateTime.Now.AddDays(1));
-            if (first != null)
+            first = await GetCurrencyFromWeb(DateTime.Now.AddDays(1));
+            if (first.Count>0)
             {
-                second = GetCurrencyFromWeb(DateTime.Now);
+                second = await GetCurrencyFromWeb(DateTime.Now);
                 Preferences.Set("date", "tomorrow");
             }
             else
             {
                 Preferences.Set("date", "today");
-                first = GetCurrencyFromWeb(DateTime.Now);
-                second = GetCurrencyFromWeb(DateTime.Now.AddDays(-1));
+                first = await GetCurrencyFromWeb(DateTime.Now);
+                second = await GetCurrencyFromWeb(DateTime.Now.AddDays(-1));
             }
-            if (first != null && second != null)
+            if (first.Count > 0 && second.Count > 0)
             {
                 result = MergeLists(first, second);
                 SettingService settingService = new SettingService();
@@ -106,15 +109,15 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
         /// </summary>
         /// <param name="date">Дата</param>
         /// <returns>Список данных с сайта</returns>
-        private List<Currency> GetCurrencyFromWeb(DateTime date)
+        protected virtual Task<List<Currency>> GetCurrencyFromWeb(DateTime date)
         {
             var result = new List<Currency>();
             try
             {
-                var request = WebRequest.Create($"https://www.nbrb.by/Services/XmlExRates.aspx?ondate={date.ToString("dd.MM.yyyy")}") as HttpWebRequest;
+                var request = WebRequest.Create($"https://www.nbrb.by/Services/XmlExRates.aspx?ondate={date.ToString(_dateFormat)}") as HttpWebRequest;
                 var response = request.GetResponse();
 
-                if (response == null) return null;
+                if (response == null) return Task.FromResult(result);
 
                 Stream receiveStream = response.GetResponseStream();
                 StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
@@ -125,7 +128,7 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
                            .Descendants("Currency")
                            .ToList();
 
-                if (currencyList.Count == 0) return null;
+                if (currencyList.Count == 0) return Task.FromResult(result);
 
                 foreach (var currency in currencyList)
                 {
@@ -136,10 +139,10 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             catch(Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return null;
+                return Task.FromResult(result);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

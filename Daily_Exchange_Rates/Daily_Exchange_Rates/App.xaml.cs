@@ -14,7 +14,7 @@ namespace Daily_Exchange_Rates
         {
             InitializeComponent();
 
-            DependencyService.Register<CurrencyService>();
+            DependencyService.Register<APICurrencyService>();
             MainPage = new AppShell();
         }
 

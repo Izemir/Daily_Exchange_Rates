@@ -17,6 +17,8 @@ namespace Daily_Exchange_Rates.ViewModels
     /// </summary>
     public class CurrencyListViewModel: BaseViewModel
     {
+
+        private string _dateFormat = "dd.MM.yy";
         public ObservableCollection<CurrencyData> Currency { get; }
 
         public Command SettingsCommand { get; }
@@ -48,8 +50,29 @@ namespace Daily_Exchange_Rates.ViewModels
             }
         }
 
-        public string FirstDate { get; set; }
-        public string SecondDate { get; set; }
+        private string _firstDate;
+        private string _secondDate;
+        public string FirstDate {
+            get
+            {
+                return _firstDate;
+            }
+            set
+            {
+                SetProperty(ref _firstDate, value);
+            }
+        }
+        public string SecondDate
+        {
+            get
+            {
+                return _secondDate;
+            }
+            set
+            {
+                SetProperty(ref _secondDate, value);
+            }
+        }
 
         public string ErrorText { get; set; }
 
@@ -95,19 +118,19 @@ namespace Daily_Exchange_Rates.ViewModels
                         string date = Preferences.Get("date", "");
                         if (date == "today")
                         {
-                            FirstDate = DateTime.Now.AddDays(-1).ToString("dd.MM.yy");
-                            SecondDate = DateTime.Now.ToString("dd.MM.yy");
+                            FirstDate = DateTime.Now.AddDays(-1).ToString(_dateFormat);
+                            SecondDate = DateTime.Now.ToString(_dateFormat);
                         }
                         else if (date == "tomorrow")
                         {
-                            FirstDate = DateTime.Now.ToString("dd.MM.yy");
-                            SecondDate = DateTime.Now.AddDays(1).ToString("dd.MM.yy");
+                            FirstDate = DateTime.Now.ToString(_dateFormat);
+                            SecondDate = DateTime.Now.AddDays(1).ToString(_dateFormat);
                         }
                     }
                     else
                     {
-                        FirstDate = DateTime.Now.ToString("dd.MM.yy");
-                        SecondDate = DateTime.Now.AddDays(-1).ToString("dd.MM.yy");
+                        FirstDate = DateTime.Now.AddDays(-1).ToString(_dateFormat);
+                        SecondDate = DateTime.Now.ToString(_dateFormat);
                     }
                     Error= false;
                 }
