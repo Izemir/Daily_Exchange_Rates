@@ -4,7 +4,8 @@
              xmlns:model="clr-namespace:Daily_Exchange_Rates.Models" 
              xmlns:local="clr-namespace:Daily_Exchange_Rates.ViewModels" 
              Title="{Binding Title}"
-             x:Class="Daily_Exchange_Rates.Views.SettingsPage">
+             x:Class="Daily_Exchange_Rates.Views.SettingsPage"
+             x:Name="Page">
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="check.png" Command="{Binding SaveCommand}"/>
     </ContentPage.ToolbarItems>
@@ -13,14 +14,15 @@
                 SelectionMode="None">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Grid Padding="10" x:DataType="model:CurrencySetting">
-                    <Grid.ColumnDefinitions>
+                <StackLayout>
+                    <Grid Padding="10" x:DataType="model:CurrencySetting">
+                        <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <StackLayout Orientation="Vertical" Grid.Column="0">
-                        <Label Text="{Binding CharCode}"
+                        <Label x:Name="CharCode" Text="{Binding CharCode}"
                                        FontSize="16"
                                        TextColor="Black"/>
                         <Label Text="{Binding ScaleName}"/>
@@ -28,7 +30,28 @@
                     <Switch IsToggled="{Binding Enable}" Grid.Column="1" 
                             OnColor="SkyBlue"
                             ThumbColor="{StaticResource Primary}"/>
-                </Grid>
+                        <Label Text="=" Grid.Column="2" 
+                               HorizontalTextAlignment="Center"
+                                       FontSize="40"
+                                       TextColor="Black">
+                            <Label.GestureRecognizers>
+                                <DragGestureRecognizer 
+                            CanDrag="True"
+                            DragStartingCommand="{Binding Source={x:Reference Page} , Path=BindingContext.DragStartingCommand}"
+            DragStartingCommandParameter="{Binding .}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                    <BoxView BackgroundColor="LightGray" CornerRadius="2" HorizontalOptions="FillAndExpand" 
+                                                HeightRequest="1"></BoxView>
+                    <StackLayout.GestureRecognizers>                       
+
+                        <DropGestureRecognizer AllowDrop="True"
+                            DragOverCommand="{Binding Source={x:Reference Page} , Path=BindingContext.DragOverCommand}"
+            DragOverCommandParameter="{Binding .}"/>
+
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

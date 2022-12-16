@@ -3,17 +3,25 @@ using Daily_Exchange_Rates.Services;
 using Daily_Exchange_Rates.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using static Xamarin.Forms.Device;
 
 namespace Daily_Exchange_Rates.ViewModels
-{
+{    
     /// <summary>
     /// Настройка списка валют
     /// </summary>
     public class SettingsViewModel : BaseViewModel
     {
-        public List<CurrencySetting> Settings { get;}
+        public CurrencySetting itemBeingDragged;
+        public ObservableCollection<CurrencySetting> Settings { get;}
+        public Command<CurrencySetting> DragStartingCommand { get; }
+        public Command<CurrencySetting> DragOverCommand { get; }
+
 
         public Command SaveCommand { get; }
 
@@ -25,10 +33,27 @@ namespace Daily_Exchange_Rates.ViewModels
         public SettingsViewModel() 
         {
             Title = "Настройка валют";
-            Settings = new List<CurrencySetting>();
+            Settings = new ObservableCollection<CurrencySetting>();
             SaveCommand = new Command(Save);
             _settingService = new SettingService();
+
+            DragStartingCommand = new Command<CurrencySetting>((s) =>
+            {
+                itemBeingDragged = s;
+            });
+
+            DragOverCommand = new Command<CurrencySetting>((s) => MoveItem(s));
             LoadSettings();
+        }
+
+        private void MoveItem(CurrencySetting s)
+        {
+            if (s.CharCode == itemBeingDragged.CharCode)
+                return;
+            int oldIndex = s.Order;
+            s.Order = itemBeingDragged.Order;
+            itemBeingDragged.Order = oldIndex;
+            Settings.Move(Settings.IndexOf(itemBeingDragged), Settings.IndexOf(s));
         }
 
         /// <summary>
@@ -43,6 +68,7 @@ namespace Daily_Exchange_Rates.ViewModels
                 {
                     Settings.Add(item);
                 }
+                
             }
         }
 
@@ -52,7 +78,7 @@ namespace Daily_Exchange_Rates.ViewModels
         /// <param name="obj"></param>
         private async void Save(object obj)
         {
-            _settingService.SaveSettings(Settings);
+            _settingService.SaveSettings(Settings.ToList());
             await Shell.Current.GoToAsync("..");
         }
 

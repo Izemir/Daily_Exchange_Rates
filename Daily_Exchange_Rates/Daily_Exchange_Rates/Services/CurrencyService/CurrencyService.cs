@@ -76,6 +76,7 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
                         NumCode = item.NumCode,
                         Rate= item.Rate,
                         PreviousRate = secondRate
+                        
                     });
                 }
 

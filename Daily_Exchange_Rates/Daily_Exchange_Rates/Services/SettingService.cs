@@ -52,6 +52,7 @@ namespace Daily_Exchange_Rates.Services
         /// <returns>Список настроек</returns>
         public List<CurrencySetting> GetSettings()
         {
+            _settings.Sort((i, j) => i.Order.CompareTo(j.Order));
             return _settings;
         }
 
@@ -63,6 +64,7 @@ namespace Daily_Exchange_Rates.Services
         public void AdaptCurrencyList(ref List<CurrencyData> list)
         {
             var newSettings = new List<CurrencySetting>();
+            int counter = 1;
             foreach(var item in list)
             {
                 if (_settings.Count > 0)
@@ -71,6 +73,7 @@ namespace Daily_Exchange_Rates.Services
                     if(tmpItem != null)
                     {
                         item.IsVisible = tmpItem.Enable;
+                        item.Order = tmpItem.Order; 
                     }
                     else
                     {
@@ -81,19 +84,22 @@ namespace Daily_Exchange_Rates.Services
                 {
                     if(_defaultSettings.Contains(item.CharCode))
                     {
-                        item.IsVisible= true;
+                        item.IsVisible= true;                        
                     }
                     else item.IsVisible= false;
+
+                    item.Order = list.IndexOf(item);
 
                     newSettings.Add(new CurrencySetting()
                     {
                         CharCode= item.CharCode,
                         Enable=item.IsVisible,
-                        Order=newSettings.Count+1,
+                        Order=item.Order,
                         ScaleName=item.ScaleName,
                     });                    
-                }
+                }                
             }
+            list.Sort((i,j)=>i.Order.CompareTo(j.Order));
             if (newSettings.Count > 0) SaveSettings(newSettings);
         }
 

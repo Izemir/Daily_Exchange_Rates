@@ -18,5 +18,6 @@ namespace Daily_Exchange_Rates.Models
         public double Rate { get; set; }
         public double PreviousRate { get; set; }
         public bool IsVisible { get; set; }
+        public int Order { get; set; }
     }
 }
