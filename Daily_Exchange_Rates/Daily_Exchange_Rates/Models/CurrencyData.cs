@@ -8,6 +8,7 @@ namespace Daily_Exchange_Rates.Models
     /// Модель данных, уже приведенных к необходимому виду для работы приложения
     /// PreviousRate - значения курса на день раньше
     /// IsVisible - видимость в списке
+    /// Order - место в списке
     /// </summary>
     public class CurrencyData
     {
