@@ -14,17 +14,27 @@ using static Daily_Exchange_Rates.Models.Rates;
 
 namespace Daily_Exchange_Rates.Services.CurrencyService
 {
+    /// <summary>
+    /// Получение данных аналогично CurrencyService, но уже из API
+    /// </summary>
     public class APICurrencyService :CurrencyService, ICurrencyService
     {
         private string _dateFormat = "yyyy-MM-dd";
         private readonly HttpClient _http;
         private readonly string _apiConnection;
+        /// <summary>
+        /// Конструктор со строкой подключения к API
+        /// </summary>
         public APICurrencyService()
         {
             _http = new HttpClient();
             _apiConnection = "https://www.nbrb.by/api/exrates/rates?periodicity=0";
         }
-
+        /// <summary>
+        /// Получение данных с сайта, их перевод в json формат, последующий перевод к общему формату
+        /// </summary>
+        /// <param name="date">Дата</param>
+        /// <returns>Список данных с сайта</returns>
         protected override async Task<List<Currency>> GetCurrencyFromWeb(DateTime date)
         {
             var result = new List<Currency>();
@@ -48,6 +58,11 @@ namespace Daily_Exchange_Rates.Services.CurrencyService
             return result;
         }
 
+        /// <summary>
+        /// Переводит данные в необходимые нам модели
+        /// </summary>
+        /// <param name="rates">Лист данных</param>
+        /// <returns>Список данных в нужной модели</returns>
         private List<Currency> RatesMapper(List<Rate> rates)
         {
             var result = new List<Currency>();

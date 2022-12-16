@@ -37,6 +37,7 @@ namespace Daily_Exchange_Rates.ViewModels
             SaveCommand = new Command(Save);
             _settingService = new SettingService();
 
+            // фиксируется перетаскиваемая "валюта"
             DragStartingCommand = new Command<CurrencySetting>((s) =>
             {
                 itemBeingDragged = s;
@@ -46,6 +47,10 @@ namespace Daily_Exchange_Rates.ViewModels
             LoadSettings();
         }
 
+        /// <summary>
+        /// Перетаскиваемая "валюта" меняется местами с той, на которой остановилась
+        /// </summary>
+        /// <param name="s">"Валюта" остановки</param>
         private void MoveItem(CurrencySetting s)
         {
             if (s.CharCode == itemBeingDragged.CharCode)

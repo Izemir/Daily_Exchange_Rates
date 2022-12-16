@@ -36,9 +36,9 @@
                                        TextColor="Black">
                             <Label.GestureRecognizers>
                                 <DragGestureRecognizer 
-                            CanDrag="True"
-                            DragStartingCommand="{Binding Source={x:Reference Page} , Path=BindingContext.DragStartingCommand}"
-            DragStartingCommandParameter="{Binding .}" />
+                                    CanDrag="True"
+                                    DragStartingCommand="{Binding Source={x:Reference Page} , Path=BindingContext.DragStartingCommand}"
+                                    DragStartingCommandParameter="{Binding .}" />
                             </Label.GestureRecognizers>
                         </Label>
                     </Grid>
@@ -48,7 +48,7 @@
 
                         <DropGestureRecognizer AllowDrop="True"
                             DragOverCommand="{Binding Source={x:Reference Page} , Path=BindingContext.DragOverCommand}"
-            DragOverCommandParameter="{Binding .}"/>
+                            DragOverCommandParameter="{Binding .}"/>
 
                     </StackLayout.GestureRecognizers>
                 </StackLayout>

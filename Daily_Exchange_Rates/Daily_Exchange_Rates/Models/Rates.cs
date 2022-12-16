@@ -8,6 +8,9 @@ namespace Daily_Exchange_Rates.Models
 {
     public class Rates
     {
+        /// <summary>
+        /// Модели, взятые напрямую с сайта https://www.nbrb.by/apihelp/exrates
+        /// </summary>
         public class Rate
         {
             [Key]

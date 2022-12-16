@@ -47,7 +47,7 @@ namespace Daily_Exchange_Rates.Services
         }
 
         /// <summary>
-        /// Получение настроек
+        /// Получение настроек (и их сортировка по порядку)
         /// </summary>
         /// <returns>Список настроек</returns>
         public List<CurrencySetting> GetSettings()
